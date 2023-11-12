@@ -12,3 +12,12 @@ class Viajes(models.Model):
 
     def __str__(self):
         return f'Destino: {self.destino}, salida: {self.fecha_salida}, precio: {self.precio_asiento}.'
+    
+class Reservas(models.Model):
+    viaje_reservado = models.CharField(max_length=20)
+    asientos_reservados = models.CharField(max_length=2)
+    nombre_titular = models.CharField(max_length=30)
+    identificacion_titular = models.CharField(max_length=15)
+    email_titular = models.CharField(max_length=20)
+    celular_titular = models.CharField(max_length=10)
+    direccion_titular = models.CharField(max_length=30)

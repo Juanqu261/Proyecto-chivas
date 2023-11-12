@@ -35,18 +35,43 @@
             </div>
         </div>
         <!-- Card con el formulario que se despliega dependiendo del #tiquetes -->
-        <div class="col">
-            <div class="card">
-                <div class="card-body">
-                    <!-- Content for the second div -->
-                    <h5 class="card-title">Second Div</h5>
-                    <p class="card-text">This is the content of the second div.</p>
+        {% if selected_value is not None %}
+            {% if success %}
+                <div class="alert alert-success" role="alert">
+                    Reserva realizada----(saltando la pasarela de pago)
+                    <a href="{% url 'index2' %}" class="alert-link">Volver a la pagina inicial.</a>
                 </div>
-            </div>
-        </div>
+            {% else %}
+                <div class="col">
+                    <!-- form emergente a la derecha -->
+                    <div class="row justify-content-center">
+                        <div class="col-6">
+                            <div class="card bg-light mb-3">
+                                <div class="card-header">
+                                    <i class="fa-solid fa-box-archive"></i> Reservar
+                                </div>
+                                <div class="card-body">
+                                    <form action="{% url 'reservar' %}" method="post">
+                                        {% csrf_token %}
+
+                                        <div class="form-row">
+                                            {% for field in form %}
+                                                <div class="form-group col-md-12">
+                                                    {{ field.label_tag }} {{ field }} 
+                                                    {{ field.errors }}
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                        <button type="submit" class="btn btn-light" fdprocessedid="rcrzlb">Aceptar</button>
+                                        <a href="{% url 'index2' %}" class="btn btn-secondary btn-light">Cancelar</a>
+                                    </form>   
+                                </div>
+                            </div>
+                        </div>
+                    </div>   
+                </div>
+            {% endif %}
+        {% endif %}
     </div>
-    {% if selected_value is not None %}
-        <p>Selected Value: {{ selected_value }} {{ viaje.destino }}</p> 
-    {% endif %}
 </div>
 {% endblock body %}
