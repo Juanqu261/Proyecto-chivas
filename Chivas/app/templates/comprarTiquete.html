@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+
+{% block body %}
+<div style="padding-top: 20px;">
+    <div class="row mx-3" style="padding-top: 20px;">
+        <!-- Card con la informacion del viaje y el form con #tiquetes -->
+        <div class="col">
+            <div class="col ml-3 card text-white bg-dark mb-3" style="max-width: 40rem;">
+                <div class="card-header">Detalles del viaje</div>
+                <div class="card-body">
+                    <p class="card-text">
+                        Destino                :     {{ viaje.destino }} <br></br>
+                        Fecha y hora del viaje :     {{ viaje.fecha_salida }} (mm/dd/aaa) <br></br>
+                        Cupos Disponibles      :     {{ viaje.asientos_disponibles }} <br></br>
+                        Precio asiento         :     {{ viaje.precio_asiento }} <br></br>
+                    </p>
+                    <div class="form-group">
+                        <label for="exampleSelect1" class="form-label mt-4">Cantidad de tiquetes</label>
+                        <form method="post" action="{% url 'cantidadTiquetes' %}">
+                            {% csrf_token %}
+                            <input type="hidden" name="viaje_id" value="{{ viaje.id }}">
+                            <select name="selectField" class="form-select" id="exampleSelect1" fdprocessedid="bcew33">
+                                {% with viaje.asientos_disponibles|add:"0" as asientos %}
+                                {% for i in ''|rjust:asientos %}
+                                    <option>{{ forloop.counter }}</option>
+                                {% endfor %}
+                                {% endwith %}
+                            </select>
+                            <div style="padding-top: 10px;">
+                                <button type="submit" class="btn btn-light" fdprocessedid="rcrzlb">Aceptar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Card con el formulario que se despliega dependiendo del #tiquetes -->
+        <div class="col">
+            <div class="card">
+                <div class="card-body">
+                    <!-- Content for the second div -->
+                    <h5 class="card-title">Second Div</h5>
+                    <p class="card-text">This is the content of the second div.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if selected_value is not None %}
+        <p>Selected Value: {{ selected_value }} {{ viaje.destino }}</p> 
+    {% endif %}
+</div>
+{% endblock body %}
