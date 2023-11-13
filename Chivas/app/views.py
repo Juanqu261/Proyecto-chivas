@@ -23,7 +23,7 @@ def cantidadTiquetes(request):
         return render(request, 'comprarTiquete.html', {'selected_value': selected_value, 'viaje':viaje, 'form':form})
     return render(request, 'comprarTiquete.html', {'selected_value': None})
 
-def reservar(request):
+def reservar(request, viaje_id):
     if request.method == 'POST':
         form = ReservasForm(request.POST)
         if form.is_valid():
@@ -45,6 +45,10 @@ def reservar(request):
                 direccion_titular = new_direccion_titular
             )
             new_reserva.save()
+            #Modificar los asientos disponibles del viaje reservado
+            viaje = Viajes.objects.get(id=viaje_id)
+            viaje.asientos_disponibles = str(int(viaje.asientos_disponibles)-int(new_asientos_reservados))
+            viaje.save()
             return render(request, "comprarTiquete.html",{
                 'form': form,
                 'success' : True

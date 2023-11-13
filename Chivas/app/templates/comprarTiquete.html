@@ -36,12 +36,6 @@
         </div>
         <!-- Card con el formulario que se despliega dependiendo del #tiquetes -->
         {% if selected_value is not None %}
-            {% if success %}
-                <div class="alert alert-success" role="alert">
-                    Reserva realizada----(saltando la pasarela de pago)
-                    <a href="{% url 'index2' %}" class="alert-link">Volver a la pagina inicial.</a>
-                </div>
-            {% else %}
                 <div class="col">
                     <!-- form emergente a la derecha -->
                     <div class="row justify-content-center">
@@ -51,7 +45,7 @@
                                     <i class="fa-solid fa-box-archive"></i> Reservar
                                 </div>
                                 <div class="card-body">
-                                    <form action="{% url 'reservar' %}" method="post">
+                                    <form action="{% url 'reservar' viaje_id=viaje.id %}" method="post">
                                         {% csrf_token %}
 
                                         <div class="form-row">
@@ -62,7 +56,7 @@
                                                 </div>
                                             {% endfor %}
                                         </div>
-                                        <button type="submit" class="btn btn-light" fdprocessedid="rcrzlb">Aceptar</button>
+                                        <button type="submit" class="btn btn-light">Aceptar</button>
                                         <a href="{% url 'index2' %}" class="btn btn-secondary btn-light">Cancelar</a>
                                     </form>   
                                 </div>
@@ -70,7 +64,12 @@
                         </div>
                     </div>   
                 </div>
-            {% endif %}
+        {% endif %}
+        {% if success %}
+                <div class="alert alert-success" role="alert">
+                    Reserva realizada----(saltando la pasarela de pago)
+                    <a href="{% url 'index2' %}" class="alert-link">Volver a la pagina inicial.</a>
+                </div>
         {% endif %}
     </div>
 </div>
