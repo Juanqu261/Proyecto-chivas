@@ -6,4 +6,5 @@ urlpatterns = [
     path('comprarTiquete/<int:viaje_id>/',views.comprarTiquete, name="comprarTiquete"),
     path('cantidadTiquetes/', views.cantidadTiquetes, name='cantidadTiquetes'),
     path('reservar/<int:viaje_id>/', views.reservar, name="reservar"),
+    path('reservarChiva/', views.reservarChiva, name='reservarChiva'),
 ]

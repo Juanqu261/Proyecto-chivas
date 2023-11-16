@@ -1,6 +1,7 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Viajes, Reservas
-from .forms import ReservasForm
+from .models import Viajes, Reservas, Chivas
+from .forms import ReservasForm, ReservarChivaForm
+from random import choice
 
 # Create your views here.
 def index(request):  
@@ -24,6 +25,7 @@ def cantidadTiquetes(request):
     return render(request, 'comprarTiquete.html', {'selected_value': None})
 
 def reservar(request, viaje_id):
+
     if request.method == 'POST':
         form = ReservasForm(request.POST)
         if form.is_valid():
@@ -58,3 +60,20 @@ def reservar(request, viaje_id):
         return render(request, 'comprarTiquete.html',{
             'form' : form
         })
+
+def reservarChiva(request):
+    # chiva_disponible = Chivas.objects.filter(estado=1).exists()
+    chivas = Chivas.objects.filter(estado=1)
+
+    # if chiva_disponible:
+    #     form = ReservarChivaForm()
+    #     matricula_chiva = get_object_or_404(Chivas, )
+
+    if chivas.exists():
+        chiva_disponible = choice(chivas)
+        form = ReservarChivaForm()
+        form.fields['chiva_asignada'].initial = chiva_disponible.matricula
+        form.fields['productos_adicionales'].initial = 0
+        return render(request, 'reservarChiva.html', {'form':form, 'chiva_disponible':chiva_disponible})
+    else:
+        return render(request, 'reservarChiva.html', {'chivas':chivas, 'chiva_disponible':None})
