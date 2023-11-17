@@ -53,7 +53,8 @@ def reservar(request, viaje_id):
             viaje.save()
             return render(request, "comprarTiquete.html",{
                 'form': form,
-                'success' : True
+                'success' : True,
+                'reserva':new_reserva
             })
     else:
         form = ReservasForm()
@@ -62,12 +63,7 @@ def reservar(request, viaje_id):
         })
 
 def reservarChiva(request):
-    # chiva_disponible = Chivas.objects.filter(estado=1).exists()
     chivas = Chivas.objects.filter(estado=1)
-
-    # if chiva_disponible:
-    #     form = ReservarChivaForm()
-    #     matricula_chiva = get_object_or_404(Chivas, )
 
     if chivas.exists():
         chiva_disponible = choice(chivas)
@@ -77,3 +73,6 @@ def reservarChiva(request):
         return render(request, 'reservarChiva.html', {'form':form, 'chiva_disponible':chiva_disponible})
     else:
         return render(request, 'reservarChiva.html', {'chivas':chivas, 'chiva_disponible':None})
+
+def cancelaciones(request):
+    return render(request, 'cancelaciones.html')

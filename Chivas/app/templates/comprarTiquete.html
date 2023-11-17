@@ -56,8 +56,10 @@
                                                 </div>
                                             {% endfor %}
                                         </div>
-                                        <button type="submit" class="btn btn-light">Aceptar</button>
-                                        <a href="{% url 'index2' %}" class="btn btn-secondary btn-light">Cancelar</a>
+                                        <div style="padding-top: 20px;">
+                                            <button type="submit" class="btn btn-light">Aceptar</button>
+                                            <a href="{% url 'index2' %}" class="btn btn-secondary btn-light">Cancelar</a>
+                                        </div>
                                     </form>   
                                 </div>
                             </div>
@@ -67,7 +69,8 @@
         {% endif %}
         {% if success %}
                 <div class="alert alert-success" role="alert">
-                    Reserva realizada----(saltando la pasarela de pago)
+                    Reserva realizada----(saltando la pasarela de pago)<br></br>
+                    Numero de la reserva : {{ reserva.id }}<br></br>
                     <a href="{% url 'index2' %}" class="alert-link">Volver a la pagina inicial.</a>
                 </div>
         {% endif %}
