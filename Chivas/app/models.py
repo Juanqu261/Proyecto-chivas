@@ -16,7 +16,7 @@ class Viajes(models.Model):
         return f'Destino: {self.destino}, salida: {self.fecha_salida}, precio: {self.precio_asiento}.'
     
 class Reservas(models.Model):
-    viaje_reservado = models.CharField(max_length=20) #id del viaje reservado o matricula de chiva reservada
+    viaje_reservado = models.CharField(max_length=20) #id del viaje reservado 
     asientos_reservados = models.CharField(max_length=2)
     nombre_titular = models.CharField(max_length=30)
     identificacion_titular = models.CharField(max_length=15)
@@ -46,3 +46,10 @@ class ReservasChivas(models.Model):
     celular_titular = models.CharField(max_length=10)
     direccion_titular = models.CharField(max_length=30)
     productos_adicionales = models.CharField(max_length=50) #Descripcion de minibar, si no desea adicionar = 0
+
+class Cancelaciones(models.Model):
+    tipo_reserva = models.CharField(max_length=10) #viaje o chiva, segun sea el caso
+    numero_reserva = models.CharField(max_length=20) #id de la reserva cancelada
+    asientos_devueltos = models.CharField(max_length=10) #en caso de ser todos, o de haber reservado una chiva : -1
+    nombre_titular = models.CharField(max_length=30)
+    identificacion_titular = models.CharField(max_length=15)

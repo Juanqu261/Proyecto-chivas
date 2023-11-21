@@ -3,30 +3,106 @@
 {% block body %}
 
 <div style="padding-top: 20px;">
-   
+
+    <div class="row">
         <div class="col">
             <div class="col ml-3 card text-white bg-dark mb-3" style="max-width: 40rem;">
                 <div class="card-header">Detalles de la reserva</div>
                 <div class="card-body">
-                    <form method="post" action="#">
+                    <form method="post" action="{% url 'buscarReserva' %}">
                         {% csrf_token %}
 
                         <div class="form-group">
                             <label class="col-form-label" for="inputDefault">Documento de identidad (del facturante)</label>
-                            <input type="text" class="form-control" id="inputDefault" fdprocessedid="irb4dy">
+                            <input type="text" class="form-control" name="documento_identidad" fdprocessedid="irb4dy">
                         </div>
                         <div class="form-group">
                             <label class="col-form-label mt-2" for="inputDefault">Numero de la reserva</label>
-                            <input type="text" class="form-control" id="inputDefault" fdprocessedid="irb4dy">
+                            <input type="text" class="form-control" name="numero_reserva" fdprocessedid="irb4dy">
                         </div>
+                        <div class="form-group">
+                            <label for="exampleSelect1" class="form-label mt-4">Tipo de reserva</label>
+                            <select class="form-select" name="tipo_reserva" fdprocessedid="61o0lf">
+                              <option>Reserva de viaje</option>
+                              <option>Reserva de chiva</option>
+                            </select>
+                          </div>
                         <div style="padding-top: 15px;">
                             <button type="submit" class="btn btn-light" fdprocessedid="rcrzlb">Aceptar</button>
                         </div>
                     </form>
+
                 </div>
             </div>
         </div>
-    
+        {% if reserva %}
+            <div class="col">
+                <div class="card text-white bg-dark mb-3" style="max-width: 40rem;">
+                    <div class="card-header">Reserva encontrada</div>
+                    <div class="card-body">
+                        <div class="row">
+                            {% if reserva.viaje_reservado %}
+                                <div class="col">
+                                    Destino : {{ viaje.destino }}<br></br>
+                                    Fecha de salida : {{ viaje.fecha_salida }}<br></br>
+                                    Precio asiento : {{ viaje.precio_asiento }}<br></br>
+                                    Asientos reservados : {{ reserva.asientos_reservados }}<br></br>
+                                    Subtotal : ##<br></br>
+                                </div>
+                                <div class="col">
+                                    Nombre : {{ reserva.nombre_titular }}<br></br>
+                                    Identificacion : {{ reserva.identificacion_titular }}<br></br>
+                                    Celular : {{ reserva.celular_titular }}<br></br>
+                                    Direccion : {{ reserva.direccion_titular }}<br></br>
+                                </div>
+                                <label for="exampleSelect1" class="form-label mt-4">Cantidad de tiquetes a cancelar</label>
+                                <form method="post" action="{% url 'cancelarReserva' reserva_id=reserva.id %}">
+                                    {% csrf_token %}
+                                    <select name="selectField" class="form-select" id="exampleSelect1" fdprocessedid="bcew33">
+                                        {% with reserva.asientos_reservados|add:"0" as asientos %}
+                                        {% for i in ''|rjust:asientos %}
+                                            <option>{{ forloop.counter }}</option>
+                                        {% endfor %}
+                                        {% endwith %}
+                                    </select>
+                                    <div style="padding-top: 10px;">
+                                        <button type="submit" class="btn btn-light" fdprocessedid="rcrzlb" name ="reserva_viaje">Aceptar</button>
+                                    </div>
+                                </form>
+                            {% else %}
+                                <div class="col">
+                                    Destino Programado : {{ reserva.destino }}<br></br>
+                                    Matricula de la chiva : {{ reserva.chiva_asignada }}<br></br>
+                                    Fecha desde : {{ reserva.fecha_contratada }}<br></br>    
+                                    Fecha hasta : {{ reserva.fecha_contratada_hasta }}<br></br>
+                                    Subtotal : ##
+                                </div>
+                                <div class="col">
+                                    Nombre : {{ reserva.nombre_titular }}<br></br>
+                                    Identificacion : {{ reserva.identificacion_titular }}<br></br>
+                                    Celular : {{ reserva.celular_titular }}<br></br>
+                                    Direccion : {{ reserva.direccion_titular }}<br></br>
+                                </div>
+                                <form method="post" action="{% url 'cancelarReserva' reserva_id=reserva.id %}">
+                                    {% csrf_token %}
+                                    <div style="padding-top: 10px;">
+                                        <button type="submit" class="btn btn-light" fdprocessedid="rcrzlb" name ="reserva_chiva">Aceptar cancelacion</button>
+                                    </div>
+                                </form>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+    {% if cancelado %}
+        <div class="alert alert-success" role="alert">
+            Cancelacion realizada----(saltando la pasarela de devoluciones)<br></br>
+            Numero de cancelacion : {{ cancelacion.id }}<br></br>
+            <a href="{% url 'index2' %}" class="alert-link">Volver a la pagina inicial.</a>
+        </div>
+    {% endif %}
 </div>
 
 {% endblock %}

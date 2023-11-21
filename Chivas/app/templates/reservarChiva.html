@@ -6,7 +6,7 @@
 <div class="card border-dark mb-3" style="max-width;padding-top: 10px;">
     <div class="card-header"><h5>Reservar una chiva</h5></div>
     <div class="card-body">
-      <form action="#" method="post">
+      <form action="{% url 'reservarChiva' %}" method="post">
         {% csrf_token %}
 
         <div class="row">

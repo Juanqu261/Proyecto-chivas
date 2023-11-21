@@ -6,6 +6,9 @@ urlpatterns = [
     path('comprarTiquete/<int:viaje_id>/',views.comprarTiquete, name="comprarTiquete"),
     path('cantidadTiquetes/', views.cantidadTiquetes, name='cantidadTiquetes'),
     path('reservar/<int:viaje_id>/', views.reservar, name="reservar"),
-    path('reservarChiva/', views.reservarChiva, name='reservarChiva'),
+    path('seleccionarChiva/', views.seleccionarChiva, name='seleccionarChiva'),
     path('cancelaciones/',views.cancelaciones,name='cancelaciones'),
+    path('reservarChiva/',views.reservarChiva,name='reservarChiva'),
+    path('buscarReserva/',views.buscarReserva,name='buscarReserva'),
+    path('cancelarReserva/<int:reserva_id>/',views.cancelarReserva,name='cancelarReserva'),
 ]
